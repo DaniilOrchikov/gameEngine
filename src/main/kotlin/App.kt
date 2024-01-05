@@ -3,14 +3,11 @@ import org.lwjgl.opengl.GL
 import org.lwjgl.opengl.GL11.GL_TRUE
 import org.lwjgl.opengl.GL30
 import org.lwjgl.system.MemoryUtil
+import physics.Physics
 import renderingEngine.*
 import util.Injector
 import util.WindowInfo
 import java.lang.Thread.sleep
-
-fun main(){
-
-}
 
 
 /** ссылка на окно  */
@@ -76,6 +73,7 @@ fun startGameCycle(){
         }
         lastTime = glfwGetTime()
         KeyInputHandler.updateHoldEvents()
+        Physics.update()
         RenderManager.render()
         updateDisplay()
     }
