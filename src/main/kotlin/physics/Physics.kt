@@ -12,9 +12,9 @@ object Physics {
                     hitList.add(collider)
             for (collider in hitList){
                 if (currentCollider.movement.x > 0)
-                    currentCollider.setPosX(collider.getPos().x - currentCollider.width)
+                    currentCollider.right = collider.left
                 else if (currentCollider.movement.x < 0)
-                    currentCollider.setPosX(collider.getPos().x + currentCollider.width)
+                    currentCollider.left = collider.right
             }
             currentCollider.movement.x = 0f
 
@@ -25,9 +25,9 @@ object Physics {
                     hitList.add(collider)
             for (collider in hitList){
                 if (currentCollider.movement.y > 0)
-                    currentCollider.setPosY(collider.getPos().y - currentCollider.height)
+                    currentCollider.bottom = collider.top
                 else if (currentCollider.movement.y < 0)
-                    currentCollider.setPosY(collider.getPos().y + currentCollider.height)
+                    currentCollider.top = collider.bottom
             }
             currentCollider.movement.y = 0f
         }

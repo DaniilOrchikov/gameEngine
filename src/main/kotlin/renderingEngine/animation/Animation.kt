@@ -61,4 +61,8 @@ class Animation : Renderable {
         currentImageIndex = 0
         currentImage = images[0]
     }
+
+    override fun flip(horizontal:Boolean, vertical:Boolean){
+        for (image in images) image.flip(horizontal, vertical)
+    }
 }

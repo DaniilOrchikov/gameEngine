@@ -1,5 +1,6 @@
 package renderingEngine
 
+import org.joml.Vector2f
 import util.WindowInfo
 import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL15
@@ -24,6 +25,7 @@ class Image : Renderable {
     private var screenWidth = Injector.getService(WindowInfo::class.java).width
     private var screenHeight = Injector.getService(WindowInfo::class.java).height
     private lateinit var imageData: ImageData
+    private var imageMapping = floatArrayOf(1f,1f,1f,0f,0f,0f,0f,1f)
 
     constructor(path: String) {
         initTexture(path)
@@ -74,14 +76,30 @@ class Image : Renderable {
         GL30.glBindVertexArray(0)
     }
 
+    override fun flip(horizontal:Boolean, vertical:Boolean){
+        if (horizontal){
+            imageMapping[0] = imageMapping[6].also { imageMapping[6] = imageMapping[0]}
+            imageMapping[1] = imageMapping[7].also { imageMapping[7] = imageMapping[1]}
+            imageMapping[2] = imageMapping[4].also { imageMapping[4] = imageMapping[2]}
+            imageMapping[3] = imageMapping[5].also { imageMapping[5] = imageMapping[3]}
+
+        }
+        if (vertical){
+            imageMapping[0] = imageMapping[2].also { imageMapping[2] = imageMapping[0]}
+            imageMapping[1] = imageMapping[3].also { imageMapping[3] = imageMapping[1]}
+            imageMapping[4] = imageMapping[6].also { imageMapping[6] = imageMapping[4]}
+            imageMapping[5] = imageMapping[7].also { imageMapping[7] = imageMapping[5]}
+        }
+    }
+
     override fun draw(x: Float, y: Float) {
         val posX = x / (screenWidth / 2f) - 1f
         val posY = -(y / (screenHeight / 2f) - 1f)
         val vertices = floatArrayOf(
-            posX + width / (screenWidth / 2f), posY - height / (screenHeight / 2f), 0f, 1.0f, 1.0f,
-            posX + width / (screenWidth / 2f), posY, 0f, 1.0f, 0.0f,
-            posX, posY, 0f, 0.0f, 0.0f,
-            posX, posY - height / (screenHeight / 2f), 0f, 0.0f, 1.0f
+            posX + width / (screenWidth / 2f), posY - height / (screenHeight / 2f), 0f, imageMapping[0], imageMapping[1],
+            posX + width / (screenWidth / 2f), posY, 0f, imageMapping[2], imageMapping[3],
+            posX, posY, 0f, imageMapping[4], imageMapping[5],
+            posX, posY - height / (screenHeight / 2f), 0f, imageMapping[6], imageMapping[7]
         )
 
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo)

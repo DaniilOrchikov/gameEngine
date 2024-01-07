@@ -7,24 +7,61 @@ class Collider(
     private val gameObjectPos: Vector3f,
     val width: Float,
     val height: Float,
-    val shift: Vector2f = Vector2f(-width / 2, -height / 2),
-    val movable:Boolean = false
+    private val shift: Vector2f = Vector2f(0f, 0f),
+    val movable: Boolean = false
 ) {
+    var top: Float
+        get() {
+            return getPos().y
+        }
+        set(value) {
+            setPosY(value)
+        }
+    var bottom: Float
+        get() {
+            return getPos().y + height
+        }
+        set(value) {
+            setPosY(value - height)
+        }
+    var right: Float
+        get() {
+            return getPos().x + width
+        }
+        set(value) {
+            setPosX(value - width)
+        }
+
+    var left: Float
+        get() {
+            return getPos().x
+        }
+        set(value) {
+            setPosX(value)
+        }
+
+    init {
+        shift.sub(width / 2, height / 2)
+    }
+
     val movement = Vector2f(0f, 0f)
-    fun moveX(){
+    fun moveX() {
         gameObjectPos.x += movement.x
     }
-    fun moveY(){
+
+    fun moveY() {
         gameObjectPos.y += movement.y
     }
+
     fun getPos(): Vector2f {
         return Vector2f(gameObjectPos.x, gameObjectPos.y).add(shift)
     }
 
-    fun setPosX(x:Float){
+    fun setPosX(x: Float) {
         gameObjectPos.x = x - shift.x
     }
-    fun setPosY(y:Float){
+
+    fun setPosY(y: Float) {
         gameObjectPos.y = y - shift.y
     }
 

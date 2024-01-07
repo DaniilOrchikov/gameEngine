@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL30
 import org.lwjgl.system.MemoryUtil
 import physics.Physics
 import renderingEngine.*
+import sourceCode.SourceCodeManager
 import util.Injector
 import util.WindowInfo
 import java.lang.Thread.sleep
@@ -65,6 +66,7 @@ fun setFPS(fps: Int){
 }
 
 fun startGameCycle(){
+    SourceCodeManager.init()
     while (shouldDisplayClose()) {
         currentTime = glfwGetTime()
         if(currentTime - lastTime < singleFrameTime){
@@ -73,10 +75,12 @@ fun startGameCycle(){
         }
         lastTime = glfwGetTime()
         KeyInputHandler.updateHoldEvents()
+        SourceCodeManager.update()
         Physics.update()
         RenderManager.render()
         updateDisplay()
     }
+    SourceCodeManager.close()
     closeResources()
 }
 

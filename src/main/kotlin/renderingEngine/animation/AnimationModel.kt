@@ -50,4 +50,7 @@ class AnimationModel : Renderable {
     override fun close() {
         for (animationName in animations) animations.clone()
     }
+    override fun flip(horizontal:Boolean, vertical:Boolean){
+        for (animation in animations.values) animation.flip(horizontal, vertical)
+    }
 }
