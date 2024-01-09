@@ -32,52 +32,67 @@ val map = arrayOf( // Это лишь пример. Так делать карт
 )
 
 fun main() {
+    // инициализируем openGL и создаем экран
     createDisplay(1000, 700)
 
+    // создаем новый GameObject
     val player = GameObjectManager.createGameObject(500f, 300f)
+    // создаем новую анимационную модель
     val animationModel = AnimationModel()
+    // привязываем модель к созданному ранее GameObject
     RenderManager.addAnimationModelToGameObject(player, animationModel)
 
+    // создаем анимацию
     val idleAnimation = Animation("src/main/resources/idle", true)
+    // добавляем ее в модель
     animationModel.addAnimation(idleAnimation, "idle")
+    // запускаем анимацию
     animationModel.play("idle")
 
+    // создаем еще одну анимацию
     val runAnimation = Animation("src/main/resources/run", true)
     animationModel.addAnimation(runAnimation, "run")
 
+    // создаем коллайдер
     val collider = Collider(player.pos, 75f, 80f, Vector2f(0f, 2.5f), movable = true)
+    // привязываем коллайдер к созданному ранее GameObject
     ColliderManager.addCollider(player, collider)
-    Camera.shift.y = -150f
+
+    // привязываем камеру к игроку
     Camera.setTarget(player)
+    // задаем смещение камеры относительно объекта к которому она привязана
+    Camera.shift.y = -150f
+    // устанавливаем ограничения на передвижение камеры
+    Camera.setBoundingRect(0f,40f * map[0].size, down = 40f * (map.size))
 
     val blockImage = Image("src/main/resources/Block.png")
     val dirtImage = Image("src/main/resources/Dirt.png")
+    // создаем карту
     for (i in map.indices)
         for (j in map[i].indices){
             if (map[i][j] != 0){
-                val go = GameObjectManager.createGameObject(j * 40f, i * 40f)
+                val go = GameObjectManager.createGameObject(20f + j * 40f, 20f + i * 40f)
                 go.image = if (map[i][j] == 1) blockImage else dirtImage
                 RenderManager.addObject(go)
                 val col = Collider(go.pos, 40f, 40f)
                 ColliderManager.addCollider(go, col)
             }
         }
-
+    // добавляем скрипт к GameObject
     SourceCodeManager.addCode(player) { Code() }
 
+    // запускаем игровой цикл
     startGameCycle()
 }
-
 
 class Code : ISourceCode {
     private lateinit var gameObject: GameObject
     private var jumpImpulse = 0f
     var dir = true
-
     override fun init(gameObject: GameObject) {
         this.gameObject = gameObject
         KeyInputHandler.addPressHandler(GLFW.GLFW_KEY_SPACE) {
-            jumpImpulse += 60f
+            jumpImpulse += 40f
         }
         KeyInputHandler.addHoldHandler(GLFW.GLFW_KEY_RIGHT) {
             ColliderManager.getCollider(gameObject)!!.movement.x += 5
@@ -110,9 +125,9 @@ class Code : ISourceCode {
     override fun update() {
         if (jumpImpulse > 1) jumpImpulse *= 0.9f
         else jumpImpulse = 0f
-        ColliderManager.getCollider(gameObject)!!.movement.y += 20 - jumpImpulse
+        ColliderManager.getCollider(gameObject)!!.movement.y += 12 - jumpImpulse
     }
 
-    override fun close() {
+    override fun destroy() {
     }
 }
