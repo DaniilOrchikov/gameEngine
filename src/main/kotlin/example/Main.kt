@@ -10,24 +10,28 @@ import renderingEngine.animation.*
 import sourceCode.*
 import startGameCycle
 
+fun generateLine(array: IntArray = IntArray(26) { 0 }): IntArray {
+    return intArrayOf(2, 2) + array + intArrayOf(2, 2)
+}
+
 val map = arrayOf( // Это лишь пример. Так делать карту локации категорически не рекомендуется
     IntArray(30) { 1 },
     IntArray(30) { 2 },
-    intArrayOf(2, 2) + IntArray(26) { 0 } + intArrayOf(2, 2),
-    intArrayOf(2, 2) + IntArray(26) { 0 } + intArrayOf(2, 2),
-    intArrayOf(2, 2) + IntArray(26) { 0 } + intArrayOf(2, 2),
-    intArrayOf(2, 2) + IntArray(26) { 0 } + intArrayOf(2, 2),
-    intArrayOf(2, 2) + IntArray(26) { 0 } + intArrayOf(2, 2),
-    intArrayOf(2, 2) + IntArray(26) { 0 } + intArrayOf(2, 2),
-    intArrayOf(2, 2) + IntArray(26) { 0 } + intArrayOf(2, 2),
-    intArrayOf(2, 2) + IntArray(26) { 0 } + intArrayOf(2, 2),
-    intArrayOf(2, 2) + IntArray(26) { 0 } + intArrayOf(2, 2),
-    intArrayOf(2, 2) + IntArray(16) { 0 } + intArrayOf(1, 1) + IntArray(8) { 0 } + intArrayOf(2, 2),
-    intArrayOf(2, 2) + IntArray(15) { 0 } + intArrayOf(1, 2, 2, 1, 1) + IntArray(6) { 0 } + intArrayOf(2, 2),
-    intArrayOf(2, 2) + IntArray(4) { 0 } + intArrayOf(1, 1, 1, 1, 1) + IntArray(17) { 0 } + intArrayOf(2, 2),
-    intArrayOf(2, 2, 0, 0, 0) + intArrayOf(1, 2, 2, 2, 2, 2, 1, 1, 1) + IntArray(14) { 0 } + intArrayOf(2, 2),
-    intArrayOf(2, 2, 0, 0) + intArrayOf(1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1) + IntArray(13) { 0 } + intArrayOf(2, 2),
-    intArrayOf(2, 2, 1, 1) + intArrayOf(2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2) + IntArray(13) { 1 } + intArrayOf(2, 2),
+    generateLine(),
+    generateLine(),
+    generateLine(),
+    generateLine(),
+    generateLine(),
+    generateLine(),
+    generateLine(),
+    generateLine(),
+    generateLine(),
+    generateLine(IntArray(16) { 0 } + intArrayOf(1, 1) + IntArray(8) { 0 }),
+    generateLine(IntArray(15) { 0 } + intArrayOf(1, 2, 2, 1, 1) + IntArray(6) { 0 }),
+    generateLine(IntArray(4) { 0 } + intArrayOf(1, 1, 1, 1, 1) + IntArray(17) { 0 }),
+    generateLine(IntArray(3) { 0 } + intArrayOf(1, 2, 2, 2, 2, 2, 1, 1, 1) + IntArray(14) { 0 }),
+    generateLine(IntArray(2) { 0 } + intArrayOf(1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1) + IntArray(13) { 0 }),
+    generateLine(IntArray(2) { 1 } + intArrayOf(2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2) + IntArray(13) { 1 }),
     IntArray(30) { 2 }
 )
 
@@ -63,14 +67,14 @@ fun main() {
     // задаем смещение камеры относительно объекта к которому она привязана
     Camera.shift.y = -150f
     // устанавливаем ограничения на передвижение камеры
-    Camera.setBoundingRect(0f,40f * map[0].size, down = 40f * (map.size))
+    Camera.setBoundingRect(0f, 40f * map[0].size, down = 40f * (map.size))
 
     val blockImage = Image("src/main/resources/Block.png")
     val dirtImage = Image("src/main/resources/Dirt.png")
     // создаем карту
     for (i in map.indices)
-        for (j in map[i].indices){
-            if (map[i][j] != 0){
+        for (j in map[i].indices) {
+            if (map[i][j] != 0) {
                 val go = GameObjectManager.createGameObject(20f + j * 40f, 20f + i * 40f)
                 go.image = if (map[i][j] == 1) blockImage else dirtImage
                 RenderManager.addObject(go)
