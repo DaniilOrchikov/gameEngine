@@ -2,6 +2,9 @@ package renderingEngine
 
 import java.io.File
 
+/**
+ * Шейдер с помощью которого рисуются все картинки (Image)
+ */
 object SimpleImageShader {
     val shaderProgram: ShaderProgram = ShaderProgram()
 

@@ -2,6 +2,9 @@ package renderingEngine.animation
 
 import renderingEngine.Renderable
 
+/**
+ * Позволяет прикрепить несколько анимаций к одному объекту и установить связи между ними
+ */
 class AnimationModel : Renderable {
     private val animations = HashMap<String, Animation>()
     var currentAnimation: Animation? = null
@@ -16,11 +19,17 @@ class AnimationModel : Renderable {
         return animations[name]
     }
 
+    /**
+     * Связывает две анимации. Когда первая анимация завершит круг, будет воспроизводиться вторая анимация
+     */
     fun link(firstAnimationName: String, secondAnimationName: String) {
         require(animations.containsKey(firstAnimationName) && animations.containsKey(secondAnimationName))
         animations[firstAnimationName]?.nextAnimationName = secondAnimationName
     }
 
+    /**
+     * Запускает указанную анимацию
+     */
     fun play(animationName: String, wait: Boolean = false) {
         if (!wait) currentAnimation = animations[animationName]
         else nextAnimation = animations[animationName]
@@ -50,6 +59,7 @@ class AnimationModel : Renderable {
     override fun close() {
         for (animationName in animations) animations.clone()
     }
+
     override fun flip(horizontal:Boolean, vertical:Boolean){
         for (animation in animations.values) animation.flip(horizontal, vertical)
     }

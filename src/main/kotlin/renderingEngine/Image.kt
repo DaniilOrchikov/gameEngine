@@ -1,6 +1,5 @@
 package renderingEngine
 
-import org.joml.Vector2f
 import util.WindowInfo
 import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL15
@@ -10,8 +9,8 @@ import java.io.File
 import javax.imageio.ImageIO
 
 enum class TextureFilter(val glValue: Int) {
-    LINEAR(GL30.GL_LINEAR),
-    NEAREST(GL30.GL_NEAREST)
+    LINEAR(GL30.GL_LINEAR), // сглаживание при увеличении разрешения
+    NEAREST(GL30.GL_NEAREST) // пикселизация при увеличении разрешения
 }
 
 class Image : Renderable {
@@ -25,7 +24,7 @@ class Image : Renderable {
     private var screenWidth = Injector.getService(WindowInfo::class.java).width
     private var screenHeight = Injector.getService(WindowInfo::class.java).height
     private lateinit var imageData: ImageData
-    private var imageMapping = floatArrayOf(1f,1f,1f,0f,0f,0f,0f,1f)
+    private var imageMapping = floatArrayOf(1f, 1f, 1f, 0f, 0f, 0f, 0f, 1f)
 
     constructor(path: String) {
         initTexture(path)
@@ -76,13 +75,13 @@ class Image : Renderable {
         GL30.glBindVertexArray(0)
     }
 
+    /** Отражает картинку по горизонтали и/или вертикали */
     override fun flip(horizontal:Boolean, vertical:Boolean){
         if (horizontal){
             imageMapping[0] = imageMapping[6].also { imageMapping[6] = imageMapping[0]}
             imageMapping[1] = imageMapping[7].also { imageMapping[7] = imageMapping[1]}
             imageMapping[2] = imageMapping[4].also { imageMapping[4] = imageMapping[2]}
             imageMapping[3] = imageMapping[5].also { imageMapping[5] = imageMapping[3]}
-
         }
         if (vertical){
             imageMapping[0] = imageMapping[2].also { imageMapping[2] = imageMapping[0]}
@@ -121,17 +120,20 @@ class Image : Renderable {
         GL30.glDeleteBuffers(ebo)
     }
 
+    /** Изменение размера изображения с указанием новых размеров */
     fun resize(width: Int, height: Int) {
         this.width = width
         this.height = height
     }
-
+    /** Изменение размера изображения с указанием коэффициента масштабирования */
     fun resize(scale: Double) = resize((width * scale).toInt(), (height * scale).toInt())
 
+    /** Создание копии изображения с измененными размерами */
     fun getResizedCopy(width: Int, height: Int): Image {
         return Image(imageData, width, height)
     }
     fun getResizedCopy(scale: Double) = getResizedCopy((width * scale).toInt(), (height * scale).toInt())
+
     fun setFilter(filter: TextureFilter){
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture)
         GL30.glTexParameteri(GL30.GL_TEXTURE_2D, GL30.GL_TEXTURE_MIN_FILTER, filter.glValue)
@@ -140,6 +142,9 @@ class Image : Renderable {
     }
 }
 
+/**
+ * Позволяет получить одномерный массив цветов вида [r, g, b, a, r, g, b, a, ...] из файла
+ */
 fun getImageData(imagePath: String): ImageData {
     val image = ImageIO.read(File(imagePath))
     val width = image.width

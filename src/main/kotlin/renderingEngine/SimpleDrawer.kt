@@ -9,7 +9,10 @@ import org.lwjgl.opengl.GL20
 import org.lwjgl.opengl.GL30
 import java.io.File
 
-
+/**
+ * Отвечает за рисование простых геометрических фигур (в данный момент только многоугольники без самопересечений)
+ * В данный момент у пользователя нет способа рисовать что-либо с его помощью
+ */
 object SimpleDrawer {
     private val shaderProgram = ShaderProgram()
 
@@ -40,6 +43,7 @@ object SimpleDrawer {
         GL30.glBindVertexArray(0)
     }
 
+    /** Для определения границ многоугольника используется библиотека earcut4j (https://github.com/earcut4j/earcut4j) */
     fun drawPolygon(points: FloatArray, color: Color = BLACK) {
         if (points.size % 2 != 0 || points.size < 6) throw IllegalArgumentException("Invalid points")
         val vertices = FloatArray(points.size * 3)

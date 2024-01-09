@@ -6,6 +6,9 @@ import org.joml.Vector4f
 import util.Injector
 import util.WindowInfo
 
+/**
+ * Следует за GameObject-ом к которому ее привязали
+ */
 object Camera {
     private lateinit var target: GameObject
     val shift: Vector2f = Vector2f(0f, 0f)
@@ -42,6 +45,7 @@ object Camera {
         return pos
     }
 
+    /** Позволяет установить границы за которые камера не сможет заходить */
     fun setBoundingRect(left: Float = Float.NaN, right: Float = Float.NaN, up:Float = Float.NaN, down:Float = Float.NaN) {
         boundingRect.x = left
         boundingRect.y = up

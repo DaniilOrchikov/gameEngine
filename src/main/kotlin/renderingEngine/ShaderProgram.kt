@@ -6,6 +6,9 @@ import org.joml.Vector3f
 import org.lwjgl.opengl.GL20.*
 import org.lwjgl.opengl.GL30
 
+/**
+ * Класс отвечающий за компиляцию и использование вершинного и фрагментного шейдеров
+ */
 class ShaderProgram {
     private var vertexShader: Int? = null
     private var fragmentShader: Int? = null

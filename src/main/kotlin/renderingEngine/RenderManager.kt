@@ -5,14 +5,19 @@ import fill
 import org.joml.Vector3f
 import renderingEngine.animation.AnimationModel
 
+/**
+ * Занимается рисованием картинок и анимаций
+ */
 object RenderManager {
     private val renderableObjects = HashMap<GameObject, Renderable>()
 
+    /** Добавление нового GameObject-а. Необходимо чтобы у него была установлена картинка */
     fun addObject(gameObject: GameObject) {
         require(gameObject.image != null)
         renderableObjects[gameObject] = gameObject.image!!
     }
 
+    /** Привязка AnimationModel-и к GameObject-у */
     fun addAnimationModelToGameObject(gameObject: GameObject, model: AnimationModel) {
         renderableObjects[gameObject] = model
     }
@@ -23,7 +28,7 @@ object RenderManager {
         return renderableObjects[gameObject] as AnimationModel
     }
 
-    fun deleteRenderableObjects(gameObject: GameObject):Boolean{
+    fun deleteRenderableObject(gameObject: GameObject):Boolean{
         if (getAnimationModel(gameObject) == null) return false
         renderableObjects.remove(gameObject)
         return true
@@ -44,8 +49,8 @@ object RenderManager {
                     drawImage(pair.key.image!!, pair.key.pos)
                 else
                     animModel.draw(
-                        pair.key.pos.x - animModel.currentAnimation!!.currentImage.width / 2 - Camera.getPos().x,
-                        pair.key.pos.y - animModel.currentAnimation!!.currentImage.height / 2 - Camera.getPos().y
+                        pair.key.pos.x - animModel.currentAnimation!!.width / 2 - Camera.getPos().x,
+                        pair.key.pos.y - animModel.currentAnimation!!.height / 2 - Camera.getPos().y
                     )
             } else if (pair.value is Image) {
                 drawImage(pair.value as Image, pair.key.pos)

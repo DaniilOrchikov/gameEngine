@@ -1,17 +1,25 @@
 import org.lwjgl.glfw.GLFW
 import org.lwjgl.glfw.GLFWKeyCallback
 
+/**
+ * Позволяет привязать функции к клавишам
+ */
 object KeyInputHandler : GLFWKeyCallback() {
     private val pressEvents = HashMap<Int, () -> Unit>()
     private val releaseEvents = HashMap<Int, () -> Unit>()
     private val holdEvents = HashMap<Int, HoldEvent>()
+
+    /** Нажатие на клавишу */
     fun addPressHandler(button: Int, function: () -> Unit) {
         pressEvents[button] = function
     }
+
+    /** Отжатие клавиши */
     fun addReleaseHandler(button: Int, function: () -> Unit) {
         releaseEvents[button] = function
     }
 
+    /** Удержание клавиши */
     fun addHoldHandler(button: Int, function: () -> Unit) {
         holdEvents[button] = HoldEvent(function, false)
     }

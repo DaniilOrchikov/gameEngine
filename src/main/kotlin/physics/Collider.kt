@@ -3,6 +3,9 @@ package physics
 import org.joml.Vector2f
 import org.joml.Vector3f
 
+/**
+ * Компонент GameObject-а, которые определяет кго физические габариты. Используется для определения столкновений с другими объектами
+ */
 class Collider(
     private val gameObjectPos: Vector3f,
     val width: Float,

@@ -6,12 +6,19 @@ import java.io.File
 
 class Animation : Renderable {
     private val images: ArrayList<Image>
-    val count: Int
-    var currentImageIndex = 0
-    var currentImage: Image
+    private val count: Int
+    private var currentImageIndex = 0
+    private var currentImage: Image
+    /** Завершился ли круг */
     var end = false
-    var nextAnimationName: String? = null
+    /** Если установлен в true, то анимация после прохождения полного круга будет начинаться заново */
     val isLooped: Boolean
+    /** Если isLooped = false, то после прохождения полного круга будет играть анимация с таким именем (анимация с этим именем должна быть добавлена в ту же AnimationModel) */
+    var nextAnimationName: String? = null
+    val width: Int
+        get() = currentImage.width
+    val height: Int
+        get() = currentImage.height
 
     constructor(images: ArrayList<Image>, isLooped: Boolean) {
         require(images.isNotEmpty()) { "An empty list of images" }
@@ -57,12 +64,13 @@ class Animation : Renderable {
         for (image in images) image.close()
     }
 
+    /** Сброс к первому кадру */
     fun reset() {
-        currentImageIndex = 0
+        currentImageIndex = -1
         currentImage = images[0]
     }
 
-    override fun flip(horizontal:Boolean, vertical:Boolean){
+    override fun flip(horizontal: Boolean, vertical: Boolean) {
         for (image in images) image.flip(horizontal, vertical)
     }
 }

@@ -10,10 +10,11 @@ import util.Injector
 import util.WindowInfo
 import java.lang.Thread.sleep
 
-
-/** ссылка на окно  */
 private var window: Long = 0
 
+/**
+ * Инициализирует opengl и glfw, создает окно приложения
+ */
 fun createDisplay(width: Int, height: Int, title: String = "") {
 
     // Инициализация GLFW. Большинство функций GLFW не будут работать перед этим
@@ -65,6 +66,9 @@ fun setFPS(fps: Int){
     singleFrameTime = 1.0 / FPS
 }
 
+/**
+ * Запускает игровой цикл, вызывает все менеджеры компонентов GameObject-а, обновляет окно приложения
+ */
 fun startGameCycle(){
     SourceCodeManager.init()
     while (shouldDisplayClose()) {

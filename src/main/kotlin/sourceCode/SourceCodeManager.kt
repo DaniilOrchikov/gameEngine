@@ -21,6 +21,7 @@ object SourceCodeManager {
         }
     }
 
+    /** Удаляет все скрипты которые привязаны к объекту */
     fun deleteAllCodeForObject(gameObject: GameObject) {
         val deletedItems = HashSet<Pair<GameObject, ISourceCode>>()
         for (sc in sourceCodeList)

@@ -1,5 +1,9 @@
 package physics
 
+/**
+ * Объект который рассчитывает физику для всех GameObject-ов
+ * Пока работает только с физикой прямоугольников, выравненных по координатным осям
+ */
 object Physics {
     fun update() {
         val colliders = ColliderManager.getColliders()
