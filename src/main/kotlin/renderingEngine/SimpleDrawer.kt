@@ -80,7 +80,7 @@ object SimpleDrawer {
         GL30.glBindVertexArray(0)
     }
 
-    fun close() {
+    internal fun close() {
         GL30.glDeleteVertexArrays(vao)
         GL30.glDeleteBuffers(vbo)
         GL30.glDeleteBuffers(ebo)

@@ -10,11 +10,11 @@ class Animation : Renderable {
     private var currentImageIndex = 0
     private var currentImage: Image
     /** Завершился ли круг */
-    var end = false
+    internal var end = false
     /** Если установлен в true, то анимация после прохождения полного круга будет начинаться заново */
-    val isLooped: Boolean
+    internal val isLooped: Boolean
     /** Если isLooped = false, то после прохождения полного круга будет играть анимация с таким именем (анимация с этим именем должна быть добавлена в ту же AnimationModel) */
-    var nextAnimationName: String? = null
+    internal var nextAnimationName: String? = null
     val width: Int
         get() = currentImage.width
     val height: Int
@@ -45,7 +45,7 @@ class Animation : Renderable {
         this.isLooped = isLooped
     }
 
-    fun next() {
+    internal fun next() {
         end = false
         currentImageIndex += 1
         currentImage = images[currentImageIndex]

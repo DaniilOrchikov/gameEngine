@@ -9,13 +9,13 @@ object SourceCodeManager {
         sourceCodeList.add(Pair(gameObject, createSourceCode()))
     }
 
-    fun init() {
+    internal fun init() {
         for (pair in sourceCodeList) {
             pair.second.init(pair.first)
         }
     }
 
-    fun update() {
+    internal fun update() {
         for (pair in sourceCodeList) {
             pair.second.update()
         }
@@ -32,7 +32,7 @@ object SourceCodeManager {
         sourceCodeList.removeAll(deletedItems)
     }
 
-    fun close() {
+    internal fun close() {
         for (pair in sourceCodeList) {
             pair.second.destroy()
         }

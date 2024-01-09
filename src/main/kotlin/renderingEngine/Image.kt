@@ -145,7 +145,7 @@ class Image : Renderable {
 /**
  * Позволяет получить одномерный массив цветов вида [r, g, b, a, r, g, b, a, ...] из файла
  */
-fun getImageData(imagePath: String): ImageData {
+internal fun getImageData(imagePath: String): ImageData {
     val image = ImageIO.read(File(imagePath))
     val width = image.width
     val height = image.height

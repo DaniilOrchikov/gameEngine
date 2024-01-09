@@ -88,23 +88,23 @@ fun startGameCycle(){
     closeResources()
 }
 
-fun closeResources(){
+private fun closeResources(){
     RenderManager.close()
     SimpleDrawer.close()
     closeDisplay()
 }
 
-fun updateDisplay() {
+private fun updateDisplay() {
     glfwSwapBuffers(window) // поменяем цветовые буферы
     // Проверяет были ли вызваны какие либо события (вроде ввода с клавиатуры или перемещение мыши)
     glfwPollEvents()
 }
 
-fun shouldDisplayClose(): Boolean {
+private fun shouldDisplayClose(): Boolean {
     return !glfwWindowShouldClose(window)
 }
 
-fun closeDisplay() {
+private fun closeDisplay() {
     glfwWindowShouldClose(window) // Освобождаем обратные вызовы окна
     glfwDestroyWindow(window) // Уничтожаем окно
     glfwTerminate() // Завершаем GLFW. Очистка выделенных нам ресурсов

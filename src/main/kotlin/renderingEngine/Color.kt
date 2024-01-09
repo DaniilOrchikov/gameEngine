@@ -7,6 +7,7 @@ class Color {
     var a: Float
 
     constructor(r: Float, g: Float, b: Float, a: Float = 1f) {
+        require(r in 0.0..1.0 && g in 0.0..1.0 && b in 0.0..1.0 && a in 0.0..1.0) { "Invalid color" }
         this.r = r
         this.g = g
         this.b = b
@@ -21,6 +22,7 @@ class Color {
     )
 
     constructor(hexColor: String) {
+        require(hexColor.length >= 7 || hexColor.first() != '#') { "Invalid hex color" }
         r = hexColor.substring(1, 3).toInt(radix = 16).toFloat() / 255
         g = hexColor.substring(3, 5).toInt(radix = 16).toFloat() / 255
         b = hexColor.substring(5, 7).toInt(radix = 16).toFloat() / 255

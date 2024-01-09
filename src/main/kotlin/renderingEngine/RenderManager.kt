@@ -11,9 +11,11 @@ import renderingEngine.animation.AnimationModel
 object RenderManager {
     private val renderableObjects = HashMap<GameObject, Renderable>()
 
-    /** Добавление нового GameObject-а. Необходимо чтобы у него была установлена картинка */
-    fun addObject(gameObject: GameObject) {
-        require(gameObject.image != null)
+    /** Добавление нового GameObject-а. Необходимо чтобы у него была установлена картинка
+     * Не нужно использовать этот метод вручную. При добавлении картинки объекту, он вызывается автоматически
+     */
+    internal fun addObject(gameObject: GameObject) {
+        require(gameObject.image != null) { "The object must contain an image" }
         renderableObjects[gameObject] = gameObject.image!!
     }
 
@@ -28,13 +30,13 @@ object RenderManager {
         return renderableObjects[gameObject] as AnimationModel
     }
 
-    fun deleteRenderableObject(gameObject: GameObject):Boolean{
+    fun deleteRenderableObject(gameObject: GameObject): Boolean {
         if (getAnimationModel(gameObject) == null) return false
         renderableObjects.remove(gameObject)
         return true
     }
 
-    fun render() {
+    internal fun render() {
         fun drawImage(image: Image, pos: Vector3f) {
             image.draw(
                 pos.x - image.width / 2 - Camera.getPos().x,
@@ -58,7 +60,7 @@ object RenderManager {
         }
     }
 
-    fun close() {
+    internal fun close() {
         for (pair in renderableObjects) {
             if (pair.key.image != null) pair.key.image!!.close()
         }
