@@ -5,5 +5,5 @@ import gameObject.GameObject
 interface ISourceCode {
     fun init(gameObject: GameObject)
     fun update()
-    fun close()
+    fun destroy()
 }

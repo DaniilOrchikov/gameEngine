@@ -16,4 +16,10 @@ object ColliderManager {
     fun getCollider(gameObject: GameObject): Collider?{
         return colliders[gameObject]
     }
+
+    fun deleteCollider(gameObject: GameObject):Boolean {
+        if (getCollider(gameObject) == null) return false
+        colliders.remove(gameObject)
+        return true
+    }
 }

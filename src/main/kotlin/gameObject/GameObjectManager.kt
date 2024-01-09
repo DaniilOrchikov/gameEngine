@@ -1,6 +1,8 @@
 package gameObject
 
+import physics.ColliderManager
 import renderingEngine.RenderManager
+import sourceCode.SourceCodeManager
 
 object GameObjectManager {
     private val objects = ArrayList<GameObject>()
@@ -9,5 +11,12 @@ object GameObjectManager {
         val gameObject = GameObject(x, y)
         objects.add(gameObject)
         return gameObject
+    }
+
+    fun destroyGameObject(gameObject: GameObject){
+        objects.remove(gameObject)
+        RenderManager.deleteRenderableObjects(gameObject)
+        ColliderManager.deleteCollider(gameObject)
+        SourceCodeManager.deleteAllCodeForObject(gameObject)
     }
 }

@@ -23,6 +23,12 @@ object RenderManager {
         return renderableObjects[gameObject] as AnimationModel
     }
 
+    fun deleteRenderableObjects(gameObject: GameObject):Boolean{
+        if (getAnimationModel(gameObject) == null) return false
+        renderableObjects.remove(gameObject)
+        return true
+    }
+
     fun render() {
         fun drawImage(image: Image, pos: Vector3f) {
             image.draw(
